@@ -37,10 +37,8 @@ import type { Employee } from '../../types/Employee';
 import EmployeeFilter from './EmployeeFilter.vue';
 import Table from '../Table.vue';
 import Avatar from '../Avatar.vue';
+import { useAsyncData } from '../../composables/useAsyncData';
 
-const employees = ref<Employee[]>([]);
-const loading = ref(true);
-const error = ref<string | null>(null);
 const selectedStatus = ref('all');
 
 const tableColumns = [
@@ -48,31 +46,24 @@ const tableColumns = [
   { key: 'status', label: 'Status' },
 ];
 
+const { data: employees, loading, error, execute } = useAsyncData<Employee[]>(
+  () => EmployeeService.getEmployees()
+);
+
 const filteredEmployees = computed(() => {
+  if (!employees.value) return [];
+  
   if (selectedStatus.value === 'all') {
     return employees.value;
   }
   return employees.value.filter(employee => employee.status === selectedStatus.value);
 });
 
-const fetchEmployees = async () => {
-  try {
-    loading.value = true;
-    error.value = null;
-    const data = await EmployeeService.getEmployees();
-    employees.value = data;
-  } catch (err) {
-    error.value = err instanceof Error ? err.message : 'An error occurred';
-  } finally {
-    loading.value = false;
-  }
-};
-
 const handleStatusChange = (status: string) => {
   selectedStatus.value = status;
 };
 
 onMounted(() => {
-  fetchEmployees();
+  execute();
 });
 </script>

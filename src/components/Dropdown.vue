@@ -1,7 +1,7 @@
 <template>
   <div class="relative inline-block">
     <button 
-      @click="toggleDropdown"
+      @click="toggle"
       class="py-1.5 pl-3 pr-1.5 inline-flex items-center rounded-lg bg-white text-sb-13 text-charcoal shadow-regular-1 cursor-pointer hover:bg-steel/10"
     >
       {{ selectedOption?.label || 'Select an option' }}
@@ -33,7 +33,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { computed } from 'vue';
+import { useDropdown } from '../composables/useDropdown';
 
 interface DropdownOption {
   value: string;
@@ -52,33 +53,14 @@ interface Emits {
 const props = defineProps<Props>();
 const emit = defineEmits<Emits>();
 
-const isOpen = ref(false);
+const { isOpen, toggle, close } = useDropdown();
 
 const selectedOption = computed(() => {
   return props.options.find(option => option.value === props.modelValue);
 });
 
-const toggleDropdown = () => {
-  isOpen.value = !isOpen.value;
-};
-
 const selectOption = (option: DropdownOption) => {
   emit('update:modelValue', option.value);
-  isOpen.value = false;
+  close();
 };
-
-const closeDropdown = (event: Event) => {
-  const target = event.target as HTMLElement;
-  if (!target.closest('.relative')) {
-    isOpen.value = false;
-  }
-};
-
-onMounted(() => {
-  document.addEventListener('click', closeDropdown);
-});
-
-onUnmounted(() => {
-  document.removeEventListener('click', closeDropdown);
-});
 </script>
