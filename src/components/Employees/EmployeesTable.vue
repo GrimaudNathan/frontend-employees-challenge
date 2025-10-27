@@ -1,6 +1,6 @@
 <template>
   <div class="p-6">
-    <EmployeeFilter @status-change="handleStatusChange" />
+    <EmployeesFilter @status-change="handleStatusChange" />
     <Table
       :data="filteredEmployees"
       :columns="tableColumns"
@@ -34,7 +34,7 @@
 import { ref, onMounted, computed } from 'vue';
 import { EmployeeService } from '../../services/EmployeeService';
 import type { Employee } from '../../types/Employee';
-import EmployeeFilter from './EmployeeFilter.vue';
+import EmployeesFilter from './EmployeesFilter.vue';
 import Table from '../Table.vue';
 import Avatar from '../Avatar.vue';
 import { useAsyncData } from '../../composables/useAsyncData';

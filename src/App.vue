@@ -5,5 +5,5 @@
 </template>
 
 <script setup lang="ts">
-import EmployeesTable from "./components/Employee/EmployeesTable.vue";
+import EmployeesTable from "./components/Employees/EmployeesTable.vue";
 </script>
