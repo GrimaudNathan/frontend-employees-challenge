@@ -1,0 +1,44 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@theme {
+  --font-size-md-14: 0.875rem;
+  --font-line-height-md-14: 1.25rem;
+  --font-weight-md-14: 500;
+
+  --font-size-sb-13: 0.8125rem;
+  --font-line-height-sb-13: 1.25rem;
+  --font-weight-sb-13: 600;
+
+  --color-charcoal: #111111;
+  --color-slate: #555555;
+  --color-steel: #999999;
+  --color-green: #5ecd67;
+
+  --shadow-regular-1: 0px 8px 40px 0px rgba(0, 0, 0, 0.04),
+    0px 2px 5px 0px rgba(0, 0, 0, 0.05), 0px 0px 2px 0px rgba(0, 0, 0, 0.15);
+}
+
+.text-md-14 {
+  font-size: var(--font-size-md-14);
+  line-height: var(--font-line-height-md-14);
+  font-weight: var(--font-weight-md-14);
+}
+
+.text-sb-13 {
+  font-size: var(--font-size-sb-13);
+  line-height: var(--font-line-height-sb-13);
+  font-weight: var(--font-weight-sb-13);
+}
+
+.capitalize-first {
+  text-transform: lowercase;
+}
+
+.capitalize-first::first-letter {
+  text-transform: uppercase;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+}
