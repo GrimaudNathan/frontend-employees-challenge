@@ -20,13 +20,13 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="row in data" :key="getKey(row)" class="mt-2 py-2 flex items-center">
+        <tr v-for="row in data" :key="String(getKey(row))" class="mt-2 py-2 flex items-center">
           <td v-for="(column, index) in columns" :key="column.key" :class="[
             'flex-1 text-md-14 text-charcoal',
             columns.length === 2 && index === 1 ? 'text-right' : 'text-left'
           ]">
             <slot 
-              :name="`cell-${column.key}`" 
+              :name="`cell-${String(column.key)}`" 
               :row="row" 
               :value="getValue(row, column.key)"
               :column="column"
@@ -40,29 +40,30 @@
   </div>
 </template>
 
-<script setup lang="ts">
-interface TableColumn {
-  key: string;
+<script setup lang="ts" generic="GuiT extends Record<string, unknown>">
+interface TableColumn<T extends Record<string, unknown>> {
+  key: keyof T;
   label: string;
 }
 
-interface Props {
-  data: any[];
-  columns: TableColumn[];
+interface Props<T extends Record<string, unknown>> {
+  data: T[];
+  columns: readonly TableColumn<T>[];
   loading?: boolean;
   error?: string | null;
 }
 
-withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props<GuiT>>(), {
   loading: false,
   error: null,
 });
 
-const getValue = (row: any, key: string) => {
+const getValue = <K extends keyof GuiT>(row: GuiT, key: K): GuiT[K] => {
   return row[key];
 };
 
-const getKey = (row: any) => {
-  return row['id'];
+const getKey = (row: GuiT): unknown => {
+  const idKey = 'id' as keyof GuiT;
+  return row[idKey];
 };
 </script>
