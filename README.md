@@ -2,8 +2,6 @@
 
 # Exercice: Employees table
 
-At Riot we often have to display data as tables so the most accurate exercice for you will be to implement your own !
-
 In this exercice you will have to implement a table like one we have in the platform: The table showing the employees of a workspace.
 
 ![Untitled](./docs/design.png)
